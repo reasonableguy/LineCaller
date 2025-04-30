@@ -8,7 +8,7 @@
     .field {
       font-size: 24px;
       font-weight: bold;
-      color: #ffff00;
+      color: #333;
       margin: 20px;
     }
   </style>
@@ -23,32 +23,34 @@
     <p class="player1role">Loading...</p>
   </div>
 
-  <script>
-    // Function to handle and update the data from the Google Sheets API
-    function handleSheetData(data) {
-      document.querySelector('.point').innerText = data.point;
-      document.querySelector('.gender').innerText = data.gender;
-      document.querySelector('.od').innerText = data.od;
-      document.querySelector('.player1name').innerText = data.player1name;
-      document.querySelector('.player1role').innerText = data.player1role;
-    }
+<script>
+  function handleSheetData(data) {
+    // Log data to ensure it's being returned properly
+    console.log(data);  // Add this to see what data is returned from the script
 
-    // Function to fetch data from the Google Apps Script (API endpoint)
-    function fetchData() {
-      const scriptUrl = 'https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec?callback=handleSheetData';
-      const scriptTag = document.createElement('script');
-      scriptTag.src = scriptUrl;
-      document.body.appendChild(scriptTag);
-    }
+    document.querySelector('.point').innerText = data.point || "No Data";
+    document.querySelector('.gender').innerText = data.gender || "No Data";
+    document.querySelector('.od').innerText = data.od || "No Data";
+    document.querySelector('.player1name').innerText = data.player1name || "No Data";
+    document.querySelector('.player1role').innerText = data.player1role || "No Data";
+  }
 
-    // Initial data fetch on page load
-    window.onload = function() {
-      fetchData();
+  // Function to fetch new data
+  function fetchData() {
+    const scriptUrl = "https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec?callback=handleSheetData";
+    
+    // Dynamically add the script to call `handleSheetData` callback
+    const script = document.createElement('script');
+    script.src = scriptUrl;
+    document.body.appendChild(script);
+  }
 
-      // Auto-refresh every 30 seconds (30000 milliseconds)
-      setInterval(fetchData, 30000); // Adjust time interval as needed
-    };
-  </script>
+  // Initial data fetch
+  fetchData();
+
+  // Set interval to refresh data every 30 seconds (30000 milliseconds)
+  setInterval(fetchData, 30000);  // Adjust the 30000 value to your desired refresh rate (30 seconds)
+</script>
 
 </body>
 </html>
