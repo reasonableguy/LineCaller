@@ -8,13 +8,12 @@
     div {
       font-size: 24px;
       font-weight: bold;
-      color: red;
+      color: blue;
       margin: 20px;
     }
   </style>
 </head>
 <body>
-
   <div class="point">Loading...</div>
   <div class="gender">Loading...</div>
   <div class="od">Loading...</div>
@@ -22,11 +21,8 @@
   <div class="player1role">Loading...</div>
 
   <script>
-    fetch("https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec")
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
-      })
+    fetch("YOUR_WEB_APP_URL_HERE")  // <-- paste your deployment URL here
+      .then(response => response.json())
       .then(data => {
         console.log("Data received:", data);
         document.querySelector('.point').innerText = data.point || 'No data for point';
@@ -39,6 +35,5 @@
         console.error('Fetch error:', error);
       });
   </script>
-
 </body>
 </html>
