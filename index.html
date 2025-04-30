@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Google Sheets Data Fetch</title>
   <style>
     div {
       font-size: 24px;
       font-weight: bold;
-      color: red;
+      color: blue;
       margin: 20px;
     }
   </style>
@@ -19,26 +19,26 @@
   <div class="gender">Loading...</div>
   <div class="od">Loading...</div>
   <div class="player1name">Loading...</div>
-    <div class="player1role">Loading...</div>
+  <div class="player1role">Loading...</div>
 
-<script>
-  // Callback function to handle the data
-  function handleSheetData(data) {
-    console.log("Data received:", data); // Log the entire data object
+  <script>
+    fetch("https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec")
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then(data => {
+        console.log("Data received:", data);
+        document.querySelector('.point').innerText = data.point || 'No data for point';
+        document.querySelector('.gender').innerText = data.gender || 'No data for gender';
+        document.querySelector('.od').innerText = data.od || 'No data for OD';
+        document.querySelector('.player1name').innerText = data.player1name || 'No player1 name';
+        document.querySelector('.player1role').innerText = data.player1role || 'No player1 role';
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+      });
+  </script>
 
-    // Check if data has been received and is correct
-    if (data) {
-      document.querySelector('.point').innerText = data.point || 'No data for point';
-      document.querySelector('.gender').innerText = data.gender || 'No data for gender';
-      document.querySelector('.od').innerText = data.od || 'No data for OD';
-      document.querySelector('.player1name').innerText = data.player1name || 'No player1 name';
-      document.querySelector('.player1role').innerText = data.player1role || 'No player1 role';
-    } else {
-      console.error('No data received');
-    }
-  }
-</script>
-
-<script src="https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec?callback=handleSheetData"></script>
 </body>
 </html>
