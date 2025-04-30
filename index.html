@@ -11,13 +11,19 @@
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxaPwHbD81lzETV3vHf38qXcFe1QboEZ6p4Pfd8cLVSc4Fo7LeMIllSTWfYsgsND-aziA/exec';
 
-    function readCell() {
-      fetch(scriptURL)
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('output').innerText = 'Value: ' + data;
-        });
-    }
+function readCell() {
+  fetch(scriptURL)
+    .then(response => response.json())
+    .then(data => {
+      let html = '<table border="1" cellpadding="5">';
+      data.forEach(row => {
+        html += '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
+      });
+      html += '</table>';
+      document.getElementById('output').innerHTML = html;
+    });
+}
+
 
     function writeCell() {
       fetch(scriptURL, {
