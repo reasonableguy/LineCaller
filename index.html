@@ -40,12 +40,12 @@
   <button onclick="triggerFunction('lessTHEM')">Less THEM</button>
 
   <script>
-    // Fetch data from Google Apps Script Web App
+    // Fetch data from Google Apps Script Web App (no callback in URL)
     function fetchData() {
-      fetch('https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec') // Replace with your Web App URL (DO NOT use callback=handleSheetData here)
-        .then(response => response.json()) // Parse JSON data
+      fetch('https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec')  // Remove callback parameter here
+        .then(response => response.json())  // Parse JSON data
         .then(data => {
-          console.log("Data received:", data); // Log data to console
+          console.log("Data received:", data);  // Log data to console
 
           // Fill the divs with corresponding data
           document.querySelector('.i2').innerText = data.i2 || 'No data for I2';
@@ -73,7 +73,7 @@
 
     // Run Google Apps Script functions via button clicks
     function triggerFunction(functionName) {
-      google.script.run[functionName](); // Call the function on Google Apps Script
+      google.script.run[functionName]();  // Call the function on Google Apps Script
     }
 
     // Call fetchData to load the data on page load
