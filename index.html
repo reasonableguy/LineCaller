@@ -19,14 +19,18 @@
   <div class="field point">Loading...</div>
   <div class="field gender">Loading...</div>
    <div class="field od">Loading...</div>
-    <div class="field players><p class="player1 player name">Loading...</p></div>
+    <div class="field players>
+      <p class="player1name player name">Loading...</p>
+        <p class="player1role player role">Loading...</p>
+    </div>
 
 <script>
   function handleSheetData(data) {
     document.querySelector('.point').innerText = data.point;
     document.querySelector('.gender').innerText = data.gender;
      document.querySelector('.od').innerText = data.od;
-    document.querySelector('.player1').innerText = data.player1;
+    document.querySelector('.player1name').innerText = data.player1name;
+    document.querySelector('.player1role').innerText = data.player1role;
   }
 </script>
 
