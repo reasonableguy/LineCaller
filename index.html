@@ -1,66 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sheet Data Viewer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sheets Data Fetch</title>
   <style>
-    .data-block { margin: 10px; font-size: 18px; }
-    button { margin: 5px; padding: 10px 15px; font-size: 16px; }
+    div {
+      font-size: 24px;
+      font-weight: bold;
+      color: red;
+      margin: 20px;
+    }
   </style>
 </head>
 <body>
 
-  <h2>Live Google Sheet Data</h2>
-  <div class="data-block" id="i2"></div>
-  <div class="data-block" id="t2"></div>
-  <div class="data-block" id="y2"></div>
-  <div class="data-block" id="m14"></div>
-  <div class="data-block" id="u14"></div>
-  <div class="data-block" id="a8"></div>
-  <div class="data-block" id="a10"></div>
-  <div class="data-block" id="f8"></div>
-  <div class="data-block" id="f10"></div>
-  <div class="data-block" id="k8"></div>
-  <div class="data-block" id="k10"></div>
-  <div class="data-block" id="p8"></div>
-  <div class="data-block" id="p10"></div>
-  <div class="data-block" id="u8"></div>
-  <div class="data-block" id="u10"></div>
-  <div class="data-block" id="z8"></div>
-  <div class="data-block" id="z10"></div>
+  <div class="i2">Loading...</div>
+  <div class="t2">Loading...</div>
+  <div class="y2">Loading...</div>
+  <div class="m14">Loading...</div>
+  <div class="u14">Loading...</div>
+  <div class="a8">Loading...</div>
+  <div class="a10">Loading...</div>
+  <div class="f8">Loading...</div>
+  <div class="f10">Loading...</div>
+  <div class="k8">Loading...</div>
+  <div class="k10">Loading...</div>
+  <div class="p8">Loading...</div>
+  <div class="p10">Loading...</div>
+  <div class="u8">Loading...</div>
+  <div class="u10">Loading...</div>
+  <div class="z8">Loading...</div>
+  <div class="z10">Loading...</div>
 
-  <h3>Controls</h3>
+  <!-- Buttons to run Google Apps Script functions -->
   <button onclick="triggerFunction('addUS')">Add US</button>
   <button onclick="triggerFunction('addTHEM')">Add THEM</button>
   <button onclick="triggerFunction('lessUS')">Less US</button>
   <button onclick="triggerFunction('lessTHEM')">Less THEM</button>
 
   <script>
-    const SHEET_URL = "https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec";
-
+    // Fetch data from Google Apps Script Web App
     function fetchData() {
-      fetch(SHEET_URL)
-        .then(response => response.json())
+      fetch('YOUR_WEB_APP_URL') // Replace with your Web App URL
+        .then(response => response.json()) // Parse JSON data
         .then(data => {
-          for (const key in data) {
-            const div = document.getElementById(key);
-            if (div) div.textContent = `${key.toUpperCase()}: ${data[key]}`;
-          }
+          console.log("Data received:", data); // Log data to console
+
+          // Fill the divs with corresponding data
+          document.querySelector('.i2').innerText = data.i2 || 'No data for I2';
+          document.querySelector('.t2').innerText = data.t2 || 'No data for T2';
+          document.querySelector('.y2').innerText = data.y2 || 'No data for Y2';
+          document.querySelector('.m14').innerText = data.m14 || 'No data for M14';
+          document.querySelector('.u14').innerText = data.u14 || 'No data for U14';
+          document.querySelector('.a8').innerText = data.a8 || 'No data for A8';
+          document.querySelector('.a10').innerText = data.a10 || 'No data for A10';
+          document.querySelector('.f8').innerText = data.f8 || 'No data for F8';
+          document.querySelector('.f10').innerText = data.f10 || 'No data for F10';
+          document.querySelector('.k8').innerText = data.k8 || 'No data for K8';
+          document.querySelector('.k10').innerText = data.k10 || 'No data for K10';
+          document.querySelector('.p8').innerText = data.p8 || 'No data for P8';
+          document.querySelector('.p10').innerText = data.p10 || 'No data for P10';
+          document.querySelector('.u8').innerText = data.u8 || 'No data for U8';
+          document.querySelector('.u10').innerText = data.u10 || 'No data for U10';
+          document.querySelector('.z8').innerText = data.z8 || 'No data for Z8';
+          document.querySelector('.z10').innerText = data.z10 || 'No data for Z10';
         })
-        .catch(err => console.error("Fetch error:", err));
+        .catch(error => {
+          console.error('Fetch error:', error);
+        });
     }
 
-    function triggerFunction(funcName) {
-      google.script.run.withSuccessHandler(fetchData)[funcName]();
+    // Run Google Apps Script functions via button clicks
+    function triggerFunction(functionName) {
+      google.script.run[functionName](); // Call the function on Google Apps Script
     }
 
-    // Load data when the page loads
-    fetchData();
+    // Call fetchData to load the data on page load
+    window.onload = fetchData;
   </script>
-
-  <!-- If running inside an Apps Script HTML environment, keep this -->
-  <script src="https://apis.google.com/js/platform.js"></script>
 
 </body>
 </html>
