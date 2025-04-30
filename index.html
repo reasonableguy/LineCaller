@@ -3,37 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Google Sheets Data Fetch</title>
+  <title>Sheet Data Viewer</title>
   <style>
-    div {
-      font-size: 24px;
-      font-weight: bold;
-      color: blue;
-      margin: 20px;
-    }
+    .data-block { margin: 10px; font-size: 18px; }
+    button { margin: 5px; padding: 10px 15px; font-size: 16px; }
   </style>
 </head>
 <body>
-  <div class="point">Loading...</div>
-  <div class="gender">Loading...</div>
-  <div class="od">Loading...</div>
-  <div class="player1name">Loading...</div>
-  <div class="player1role">Loading...</div>
+
+  <h2>Live Google Sheet Data</h2>
+  <div class="data-block" id="i2"></div>
+  <div class="data-block" id="t2"></div>
+  <div class="data-block" id="y2"></div>
+  <div class="data-block" id="m14"></div>
+  <div class="data-block" id="u14"></div>
+  <div class="data-block" id="a8"></div>
+  <div class="data-block" id="a10"></div>
+  <div class="data-block" id="f8"></div>
+  <div class="data-block" id="f10"></div>
+  <div class="data-block" id="k8"></div>
+  <div class="data-block" id="k10"></div>
+  <div class="data-block" id="p8"></div>
+  <div class="data-block" id="p10"></div>
+  <div class="data-block" id="u8"></div>
+  <div class="data-block" id="u10"></div>
+  <div class="data-block" id="z8"></div>
+  <div class="data-block" id="z10"></div>
+
+  <h3>Controls</h3>
+  <button onclick="triggerFunction('addUS')">Add US</button>
+  <button onclick="triggerFunction('addTHEM')">Add THEM</button>
+  <button onclick="triggerFunction('lessUS')">Less US</button>
+  <button onclick="triggerFunction('lessTHEM')">Less THEM</button>
 
   <script>
-    fetch("YOUR_WEB_APP_URL_HERE")  // <-- paste your deployment URL here
-      .then(response => response.json())
-      .then(data => {
-        console.log("Data received:", data);
-        document.querySelector('.point').innerText = data.point || 'No data for point';
-        document.querySelector('.gender').innerText = data.gender || 'No data for gender';
-        document.querySelector('.od').innerText = data.od || 'No data for OD';
-        document.querySelector('.player1name').innerText = data.player1name || 'No player1 name';
-        document.querySelector('.player1role').innerText = data.player1role || 'No player1 role';
-      })
-      .catch(error => {
-        console.error('Fetch error:', error);
-      });
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycby-P5mTRLSMClzzxEF7ExVFPXSybY95QhIL9BSU1d7t60Mz_vz6awJyIoxyLAg-aaw3_w/exec";
+
+    function fetchData() {
+      fetch(SHEET_URL)
+        .then(response => response.json())
+        .then(data => {
+          for (const key in data) {
+            const div = document.getElementById(key);
+            if (div) div.textContent = `${key.toUpperCase()}: ${data[key]}`;
+          }
+        })
+        .catch(err => console.error("Fetch error:", err));
+    }
+
+    function triggerFunction(funcName) {
+      google.script.run.withSuccessHandler(fetchData)[funcName]();
+    }
+
+    // Load data when the page loads
+    fetchData();
   </script>
+
+  <!-- If running inside an Apps Script HTML environment, keep this -->
+  <script src="https://apis.google.com/js/platform.js"></script>
+
 </body>
 </html>
