@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sheet Button Example</title>
+</head>
+<body>
+  <button onclick="readCell()">Read A1</button>
+  <button onclick="writeCell()">Write to A1</button>
+  <p id="output"></p>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxaPwHbD81lzETV3vHf38qXcFe1QboEZ6p4Pfd8cLVSc4Fo7LeMIllSTWfYsgsND-aziA/exec';
+
+    function readCell() {
+      fetch(scriptURL)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('output').innerText = 'Value: ' + data;
+        });
+    }
+
+    function writeCell() {
+      fetch(scriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'value=Hello+from+Web'
+      }).then(response => response.text())
+        .then(data => {
+          document.getElementById('output').innerText = data;
+        });
+    }
+  </script>
+</body>
+</html>
+
